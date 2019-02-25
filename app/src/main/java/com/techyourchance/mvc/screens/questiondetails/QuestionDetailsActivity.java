@@ -20,18 +20,18 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class QuestionDetailsActivity extends BaseActivity implements QuestionDetailsViewMVC.Listener {
+public class QuestionDetailsActivity extends BaseActivity implements QuestionDetailsViewMvcImpl.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
 
     private StackoverflowApi mStackoverflowApi;
-    private QuestionDetailsViewMVC mViewMvc;
+    private QuestionDetailsViewMvc mViewMvc;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewMvc = new QuestionDetailsViewMVC(LayoutInflater.from(this), null);
+        mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
 
 
         mStackoverflowApi = new Retrofit.Builder()

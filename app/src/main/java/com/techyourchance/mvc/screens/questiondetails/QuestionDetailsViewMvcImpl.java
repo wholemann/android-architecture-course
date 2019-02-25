@@ -12,11 +12,7 @@ import com.techyourchance.mvc.networking.QuestionSchema;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionDetailsViewMVC  {
-
-    public interface Listener {
-        void onClicked();
-    }
+public class QuestionDetailsViewMvcImpl implements QuestionDetailsViewMvc {
 
     private TextView mTvId;
     private TextView mTvTitle;
@@ -26,17 +22,19 @@ public class QuestionDetailsViewMVC  {
 
     private final List<Listener> mListeners = new ArrayList<>(1);
 
-    public QuestionDetailsViewMVC(LayoutInflater layoutInflater, ViewGroup parent) {
+    public QuestionDetailsViewMvcImpl(LayoutInflater layoutInflater, ViewGroup parent) {
         mRootView = layoutInflater.inflate(R.layout.layout_question_details, parent, false);
         mTvId = findViewById(R.id.id_tv);
         mTvTitle = findViewById(R.id.title_tv);
         mTvBody = findViewById(R.id.body_tv);
     }
 
+    @Override
     public void registerListener(Listener listener) {
         mListeners.add(listener);
     }
 
+    @Override
     public void unregisterListener(Listener listener) {
         mListeners.remove(listener);
     }
@@ -49,10 +47,12 @@ public class QuestionDetailsViewMVC  {
         return getRootView().findViewById(id);
     }
 
+    @Override
     public View getRootView() {
         return mRootView;
     }
 
+    @Override
     public void bindQuestions(QuestionSchema question) {
         mTvId.setText(question.getId());
         mTvTitle.setText(question.getTitle());
