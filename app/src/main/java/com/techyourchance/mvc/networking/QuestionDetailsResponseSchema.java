@@ -18,5 +18,4 @@ public class QuestionDetailsResponseSchema {
         return mQuestions.get(0);
     }
 
-
 }

@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
+import com.techyourchance.mvc.R;
 import com.techyourchance.mvc.common.Constants;
 import com.techyourchance.mvc.networking.QuestionDetailsResponseSchema;
+import com.techyourchance.mvc.networking.QuestionSchema;
 import com.techyourchance.mvc.networking.StackoverflowApi;
 import com.techyourchance.mvc.screens.common.BaseActivity;
 
@@ -17,26 +20,27 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class QuestionDetailsActivity extends BaseActivity {
+public class QuestionDetailsActivity extends BaseActivity implements QuestionDetailsViewMVC.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
 
     private StackoverflowApi mStackoverflowApi;
-    private QuestionDetailsViewMVC mViewMVC;
+    private QuestionDetailsViewMVC mViewMvc;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewMVC = new QuestionDetailsViewMVC(LayoutInflater.from(this), null);
+        mViewMvc = new QuestionDetailsViewMVC(LayoutInflater.from(this), null);
 
-        setContentView(mViewMVC.getRootView());
 
         mStackoverflowApi = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(StackoverflowApi.class);
+
+        setContentView(mViewMvc.getRootView());
     }
 
     @Override
@@ -56,17 +60,30 @@ public class QuestionDetailsActivity extends BaseActivity {
                 .enqueue(new Callback<QuestionDetailsResponseSchema>() {
                     @Override
                     public void onResponse(Call<QuestionDetailsResponseSchema> call, Response<QuestionDetailsResponseSchema> response) {
-
+                        if (response.isSuccessful()) {
+                            bindQuestionDetails(response.body().getQuestion());
+                        } else {
+                            networkCallFailed();
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<QuestionDetailsResponseSchema> call, Throwable t) {
-
+                        networkCallFailed();
                     }
                 });
     }
 
-    private void bindQuestionDetails() {
+    private void networkCallFailed() {
+        Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_SHORT).show();
+    }
+
+    private void bindQuestionDetails(QuestionSchema question) {
+        mViewMvc.bindQuestions(question);
+    }
+
+    @Override
+    public void onClicked() {
 
     }
 
