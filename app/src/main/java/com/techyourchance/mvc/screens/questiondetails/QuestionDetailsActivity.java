@@ -4,12 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
-import com.techyourchance.mvc.R;
 import com.techyourchance.mvc.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.mvc.questions.QuestionDetails;
-import com.techyourchance.mvc.screens.common.BaseActivity;
+import com.techyourchance.mvc.screens.common.controllers.BaseActivity;
+import com.techyourchance.mvc.screens.common.toastshelper.ToastsHelper;
 
 public class QuestionDetailsActivity extends BaseActivity implements FetchQuestionDetailsUseCase.Listener {
 
@@ -23,12 +22,15 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
 
     private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
 
+    private ToastsHelper mToastsHelper;
+
     private QuestionDetailsViewMvc mViewMvc;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
+        mToastsHelper = getCompositionRoot().getMessagesDisplayer();
         mViewMvc = getCompositionRoot().getViewMvcFactory().getQuestionDetailsViewMvc(null);
 
         setContentView(mViewMvc.getRootView());
@@ -62,6 +64,6 @@ public class QuestionDetailsActivity extends BaseActivity implements FetchQuesti
     @Override
     public void onQuestionDetailsFetchFailed() {
         mViewMvc.hideProgressIndication();
-        Toast.makeText(this, R.string.error_network_call_failed, Toast.LENGTH_SHORT).show();
+        mToastsHelper.showUseCaseError();
     }
 }

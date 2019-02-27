@@ -1,6 +1,5 @@
 package com.techyourchance.mvc.screens.questiondetails;
 
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import com.techyourchance.mvc.R;
 import com.techyourchance.mvc.questions.QuestionDetails;
-import com.techyourchance.mvc.screens.common.BaseViewMvc;
+import com.techyourchance.mvc.screens.common.views.BaseViewMvc;
 
 
 public class QuestionDetailsViewMvcImpl extends BaseViewMvc implements QuestionDetailsViewMvc {
@@ -21,7 +20,6 @@ public class QuestionDetailsViewMvcImpl extends BaseViewMvc implements QuestionD
 
     public QuestionDetailsViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         setRootView(inflater.inflate(R.layout.layout_question_details, container, false));
-
         mTxtQuestionTitle = findViewById(R.id.txt_question_title);
         mTxtQuestionBody = findViewById(R.id.txt_question_body);
         mProgressBar = findViewById(R.id.progress);

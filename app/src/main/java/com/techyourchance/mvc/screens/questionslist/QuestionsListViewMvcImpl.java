@@ -1,6 +1,5 @@
 package com.techyourchance.mvc.screens.questionslist;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,19 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toolbar;
 
 import com.techyourchance.mvc.R;
 import com.techyourchance.mvc.questions.Question;
-import com.techyourchance.mvc.screens.common.BaseObservableViewMvc;
-import com.techyourchance.mvc.screens.common.BaseViewMvc;
+import com.techyourchance.mvc.screens.common.views.BaseObservableViewMvc;
 import com.techyourchance.mvc.screens.common.ViewMvcFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsListViewMvcImpl extends BaseObservableViewMvc<QuestionsListViewMvc.Listener>
         implements QuestionsListViewMvc, QuestionsRecyclerAdapter.Listener {
 
+    private final ToolbarViewMvc mToolbarViewMvc;
+    private final Toolbar mToolbar;
     private RecyclerView mRecyclerQuestions;
     private QuestionsRecyclerAdapter mAdapter;
     private final ProgressBar mProgressBar;
@@ -34,6 +34,11 @@ public class QuestionsListViewMvcImpl extends BaseObservableViewMvc<QuestionsLis
         mRecyclerQuestions.setAdapter(mAdapter);
 
         mProgressBar = findViewById(R.id.progress);
+
+        mToolbar =findViewById(R.id.toolbar);
+        mToolbarViewMvc = viewMvcFactory.getToolbarViewMvc(mToolbar);
+        mToolbarViewMvc.setTitle(getString(R.string.questions_list_screen_title));
+        mToolbar.addView(mToolbarViewMvc.getRootView());
     }
 
     @Override

@@ -1,8 +1,6 @@
-package com.techyourchance.mvc;
+package com.techyourchance.mvc.common.dependencyinjection;
 
 import android.app.Application;
-
-import com.techyourchance.mvc.common.dependencyinjection.CompositionRoot;
 
 public class CustomApplication extends Application {
 
