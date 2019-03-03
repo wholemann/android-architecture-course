@@ -33,6 +33,8 @@ public abstract class BaseNavDrawerViewMvc<ListenerType> extends BaseObservableV
                 mDrawerLayout.closeDrawers();
                 if (item.getItemId() == R.id.drawer_menu_questions_list) {
                     onDrawerItemClicked(DrawerItems.QUESTIONS_LIST);
+                } else if (item.getItemId() == R.id.drawer_menu_question_details) {
+                    onDrawerItemClicked(DrawerItems.QUESTION_DETAILS);
                 }
                 return false;
             }
